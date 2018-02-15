@@ -17,7 +17,8 @@
     "coverage:watch": "npm run coverage -- --watch",
     "prepare": "npm run build && npm test",
     "release": "standard-version && npm pack",
-    "postinstall": "./fix_scripts/fix_bitcore.sh"
+    "fix-bitcore": "./fix_scripts/fix_bitcore.sh",
+    "postinstall": "postinstall-build . fix_scripts/fix_bitcore.sh"
   },
   "repository": {
     "type": "git",
@@ -72,6 +73,7 @@
     "clone": "^2.1.1",
     "codelyzer": "^4.0.2",
     "crypto-browserify": "^3.12.0",
+    "postinstall-build": "^5.0.1",
     "reflect-metadata": "^0.1.10",
     "ripemd160": "^2.0.1",
     "web3": "^1.0.0-beta.26",
