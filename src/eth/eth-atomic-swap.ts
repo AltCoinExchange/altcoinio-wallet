@@ -127,4 +127,15 @@ export class EthAtomicSwap implements IAtomicSwap {
         });
     }
 
+    public async sendEther(toAddress, balance) {
+        return await this.engine.sendEther(toAddress, balance);
+    }
+
+    public fromWeiToEther(weiValue) {
+        return this.engine.fromWeiToEther(weiValue);
+    }
+
+    public toWei(amount, conversion) {
+        return this.engine.toWei(amount, conversion);
+    }
 }
