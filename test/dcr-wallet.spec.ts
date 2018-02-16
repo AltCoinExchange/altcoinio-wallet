@@ -20,7 +20,7 @@ describe("DcrWallet", () => {
 
   it("Should be able to regenerate new wallet instance", () => {
     const btcWallet = new DcrWalletTestNet();
-    btcWallet.recover(regenerateWallet)
+    btcWallet.recover(regenerateWallet);
     expect(btcWallet.hdPrivateKey.privateKey.toString())
       .toEqual("4ac5d28f380439fcb79b678cb00bdc13e11cbbf8020fbc46442b724f06412c91");
   });

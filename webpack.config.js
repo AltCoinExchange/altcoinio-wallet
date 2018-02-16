@@ -16,7 +16,7 @@ var libPath = function (name) {
     }
 
     return path.join('dist', name);
-}
+};
 
 /* helper to clean leftovers */
 var outputCleanup = function (dir) {
@@ -52,7 +52,7 @@ var percentage_handler = function handler(percentage, msg) {
         // TODO: No Error detection. :(
         create_browser_version(webpack_opts.output.filename);
     }
-}
+};
 
 var webpack_opts = {
     entry: './src/index.ts',
@@ -104,7 +104,7 @@ var webpack_opts = {
         }),
         new webpack.ProgressPlugin(percentage_handler)
     ],
-}
+};
 
 var create_browser_version = function (inputJs) {
     let outputName = inputJs.replace(/\.[^/.]+$/, '');

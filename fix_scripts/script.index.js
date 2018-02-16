@@ -12,7 +12,7 @@ var checkNumberOfArguments = function(args, message, numberOfArguments) {
     var error = new SyntaxError(message);
     throw error;
   }
-}
+};
 
 //
 // Checks async arguments. Will throw error if callback does not exist and
@@ -43,7 +43,7 @@ var checkAsyncArguments = function(args, callback_least_needed_pos, message) {
   }
 
   return callback_index;
-}
+};
 
 //
 // Checks the scrypt parameters object
@@ -84,7 +84,7 @@ var checkScryptParametersObject = function(params) {
     error.propertyValue = params;
     throw error;
   }
-}
+};
 
 var processParamsArguments = function(args) {
   var error = undefined;
@@ -143,10 +143,10 @@ var processParamsArguments = function(args) {
   }
 
   return args;
-}
+};
 
 var processKDFArguments = function(args) {
-  checkNumberOfArguments(args, "At least two arguments are needed - the key and the Scrypt paramaters object", 2)
+  checkNumberOfArguments(args, "At least two arguments are needed - the key and the Scrypt paramaters object", 2);
 
   //
   // Check key argument
@@ -164,10 +164,10 @@ var processKDFArguments = function(args) {
   //
   // Check Scrypt Parameters object
   //
-  checkScryptParametersObject(args[1])
+  checkScryptParametersObject(args[1]);
 
   return args;
-}
+};
 
 var processVerifyArguments = function(args) {
   checkNumberOfArguments(args, "At least two arguments are needed - the KDF and the key", 2);
@@ -199,7 +199,7 @@ var processVerifyArguments = function(args) {
   }
 
   return args;
-}
+};
 
 var processHashArguments = function(args) {
   checkNumberOfArguments(args, "At least four arguments are needed - the key to hash, the scrypt params object, the output length of the hash and the salt", 4);
@@ -220,7 +220,7 @@ var processHashArguments = function(args) {
   //
   // Check Scrypt Parameters object
   //
-  checkScryptParametersObject(args[1])
+  checkScryptParametersObject(args[1]);
 
   //
   // Check the hash output length
@@ -244,7 +244,7 @@ var processHashArguments = function(args) {
   }
 
   return args;
-}
+};
 
 //
 // Scrypt Object
