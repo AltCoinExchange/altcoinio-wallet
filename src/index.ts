@@ -7,4 +7,4 @@ export * from "./common";
 export * from "./btc-forks-sw/atomic-swap";
 export {generateMnemonic} from "./hd-bip44/seed";
 export * from "./eth-tokens";
-export * from "./dcrtestnet";
+// export * from "./dcrtestnet";

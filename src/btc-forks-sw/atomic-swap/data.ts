@@ -1,13 +1,12 @@
 import {RefundData, RedeemData, ExtractSecretData, InitiateData, ParticipateData} from "../../atomic-swap";
 
-
 export class BtcRefundData extends RefundData {
     constructor(public refundFee: any, public refundTx: any) {
         super();
     }
 }
 
-//TODO: rename or remove or refactor this class, most likely remove
+// TODO: rename or remove or refactor this class, most likely remove
 export class BtcAtomicSwapContractData extends BtcRefundData {
     public contract: any;
     public contractP2SH: any;
@@ -34,32 +33,31 @@ export class BtcAtomicSwapData {
     }
 }
 
-
 export class BtcExtractSecretData extends ExtractSecretData {
     constructor(public secret: string) {
-        super()
+        super();
     }
 }
 
-//TODO: refactor, remove secretHex and secretHashHex if unnecessary
+// TODO: refactor, remove secretHex and secretHashHex if unnecessary
 export class BtcRedeemData extends RedeemData {
     public redeemTx: string;
-    //TODO: rawTx to txId
+    // TODO: rawTx to txId
     public rawTx: any;
 
-    constructor(redeemTx: string, rawTx: any, secretHex:string, secretHashHex:string) {
+    constructor(redeemTx: string, rawTx: any, secretHex: string, secretHashHex: string) {
         super(secretHex, secretHashHex);
         this.redeemTx = redeemTx;
         this.rawTx = rawTx;
     }
 }
 
-//TODO: refactor this class
+// TODO: refactor this class
 export class BtcAuditContractData {
     public contractSH: any;
     public contractValue: any;
     public recipientAddress: string;
-    //TODO: refund address dose not matter, we shouldn't care which address gets the money in care of a refund
+    // TODO: refund address dose not matter, we shouldn't care which address gets the money in care of a refund
     public refundAddress: string;
     public secretHash: any;
     public lockTime: number;
@@ -75,18 +73,18 @@ export class BtcAuditContractData {
     }
 }
 
-//TODO:refactor
+// TODO:refactor
 export class BtcInitiateData extends InitiateData {
     public fee: any;
-    //P2SH address
+    // P2SH address
     public contract: string;
-    //lockScriptHex
+    // lockScriptHex
     public contractHex: any;
-    //lockTxHas/lockTxId ???
+    // lockTxHas/lockTxId ???
     public contractTx: any;
-    //lockTxHex
+    // lockTxHex
     public contractTxHex: string;
-    //lockTxId ???
+    // lockTxId ???
     public rawTx: any;
 
     constructor(fee: any, contract: any, contractHex: string,
@@ -101,18 +99,18 @@ export class BtcInitiateData extends InitiateData {
     }
 }
 
-//TODO: refactor
+// TODO: refactor
 export class BtcParticipateData extends ParticipateData {
     public fee: any;
-    //P2SH address
+    // P2SH address
     public contract: string;
-    //lockScriptHex
+    // lockScriptHex
     public contractHex: any;
-    //lockTxHas/lockTxId ???
+    // lockTxHas/lockTxId ???
     public contractTx: any;
-    //lockTxHex
+    // lockTxHex
     public contractTxHex: string;
-    //lockTxId ???
+    // lockTxId ???
     public rawTx: any;
 
     constructor(fee: any, contract: any, contractHex: string,
@@ -127,7 +125,3 @@ export class BtcParticipateData extends ParticipateData {
         this.rawTx = rawTx;
     }
 }
-
-
-
-

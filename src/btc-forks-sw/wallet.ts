@@ -5,17 +5,15 @@ import {HDNode, ECPair, networks} from "bitcoinjs-lib";
 
 import {AtomicSwapTxBuilder} from "./atomic-swap-tx-builder";
 
-
 import {BtcRpcConfiguration} from "../config/config";
 import {BtcConfiguration} from "../config/config-btc";
 
 import {FreshBitcoinWallet} from "./fresh-btc";
 import {RegenerateBitcoinWallet} from "./regenerate-btc";
 
-
-//TODO: refactor BitcoinWallet to use typescript mixins
+// TODO: refactor BitcoinWallet to use typescript mixins
 export class BitcoinWallet extends AtomicSwapTxBuilder {
-    //this is the mnemonic object
+    // this is the mnemonic object
     public code: any;
     public hierarchicalPrivateKey: any;
     public btcConfiguration: any;
@@ -36,7 +34,7 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
     }
 
     public get WIF(): string {
-        return this.hierarchicalPrivateKey.keyPair.toWIF()
+        return this.hierarchicalPrivateKey.keyPair.toWIF();
     }
 
     public async getbalance(address: string): Promise<any> {
@@ -46,16 +44,15 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
     }
 
     public recover(params: RegenerateBitcoinWallet) {
-        //TODO: refactor
-        //NOTE: params.code is in this case xprivKey, it should be called params.xprivKey
+        // TODO: refactor
+        // NOTE: params.code is in this case xprivKey, it should be called params.xprivKey
         // this.hierarchicalPrivateKey = new HDPrivateKey(params.code);
-        this.hierarchicalPrivateKey = HDNode.fromBase58(params.code, networks.testnet)
+        this.hierarchicalPrivateKey = HDNode.fromBase58(params.code, networks.testnet);
     }
 
-
     public create(params: FreshBitcoinWallet) {
-        //TODO: refactor
-        //NOTE: params.code is memnonic in this case, it should be called params.mnemonic
+        // TODO: refactor
+        // NOTE: params.code is memnonic in this case, it should be called params.mnemonic
         // const valid = Mnemonic.isValid(params.code);
         const valid = bip39.validateMnemonic(params.code);
         if (!valid) {
@@ -64,7 +61,7 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
 
         this.code = params.code;
         const seed = bip39.mnemonicToSeed(params.code);
-        this.generateHDPrivateKey(seed)
+        this.generateHDPrivateKey(seed);
     }
 
     public generateAddressFromWif(wif?: string): string {
@@ -72,10 +69,10 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
             wif = this.WIF;
         }
         const keypair = ECPair.fromWIF(wif, networks.testnet);
-        return keypair.getAddress()
+        return keypair.getAddress();
     }
 
     private generateHDPrivateKey(seed: Buffer): void {
-        this.hierarchicalPrivateKey = HDNode.fromSeedBuffer(seed, networks.testnet)
+        this.hierarchicalPrivateKey = HDNode.fromSeedBuffer(seed, networks.testnet);
     }
 }
