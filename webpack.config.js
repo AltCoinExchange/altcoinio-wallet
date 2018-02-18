@@ -131,9 +131,13 @@ var create_browser_version = function (inputJs) {
     browserified.on('end', () => {
         const options = {
             mangle:{
+                keep_fnames: true,
                 properties:{
                     reserved: ['BigInteger','ECPair','Point']
                 }
+            },
+            compress: {
+                keep_fnames: true
             }
         };
         const uglified = UglifyJS.minify(data, options).code;
