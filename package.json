@@ -17,8 +17,6 @@
     "coverage:watch": "npm run coverage -- --watch",
     "prepare": "npm run build && npm test",
     "release": "standard-version && npm pack",
-    "fix-bitcore": "./fix_scripts/fix_bitcore.sh",
-    "postinstall": "postinstall-build . fix_scripts/fix_bitcore.sh"
   },
   "repository": {
     "type": "git",
