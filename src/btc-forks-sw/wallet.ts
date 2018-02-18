@@ -37,11 +37,12 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
         return this.hierarchicalPrivateKey.keyPair.toWIF();
     }
 
-    public async getbalance(address: string): Promise<any> {
-        return await axios.get("https://chain.so/api/v2/get_address_balance/BTCTEST/" + address).then((balance) => {
-            return balance.data.data.confirmed_balance;
-        });
-    }
+    // TODO: remove this. getbalance belongs in to wallet-services.ts
+    // public async getbalance(address: string): Promise<any> {
+    //     return await axios.get("https://chain.so/api/v2/get_address_balance/BTCTEST/" + address).then((balance) => {
+    //         return balance.data.data.confirmed_balance;
+    //     });
+    // }
 
     public recover(params: RegenerateBitcoinWallet) {
         // TODO: refactor

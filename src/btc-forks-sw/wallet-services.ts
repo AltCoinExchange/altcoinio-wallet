@@ -1,17 +1,57 @@
-import axios, {AxiosResponse} from "axios";
-import {TransactionBuilder, Transaction, ECPair} from "bitcoinjs-lib";
-// import {coinSelect} from "coinselect"
-// let accumulative = require('coinselect/accumulative')
+import axios from "axios";
+import {TransactionBuilder, Transaction, ECPair, Satoshi, networks} from "bitcoinjs-lib";
 // tslint:disable-next-line
 let coinSelect = require('coinselect');
-
-// import {BtcRefundData} from "./atomic-swap";
-// import {BtcAtomicSwapContractData} from "./atomic-swap/btc-atomic-swap-contract-data";
-// import {BtcContractBuilder} from "./btc-contract-builder";
-// import {Util} from "./util";
+import * as querystring from "querystring";
 
 export class WalletServices {
     protected configuration: any;
+
+    // TODO: add return type, should be satoshis
+    public static async getBalance(address: string): Promise<any> {
+        return await axios.get("https://chain.so/api/v2/get_address_balance/BTCTEST/" + address).then((response) => {
+            return response.data.data.confirmed_balance;
+        });
+    }
+
+    public async publishTx(txHex: string) {
+        const url = "http://ec2-54-212-204-230.us-west-2.compute.amazonaws.com:3001/insight-api/tx/send/";
+        const data = querystring.stringify({rawtx: txHex});
+        // try {
+        //     axios.post(url, data).then((res) => res.data.txid).catch((err) => console.log(err.response.data));
+        //     // axios.post(url, data).then((res) => res.data.txid).catch((err) => {throw(err); });
+        // } catch (err) {
+        //     // tslint:disable-next-line
+        //     console.log(err);
+        // }
+        // tslint:disable-next-line
+        return axios.post(url, data).then((res) => res.data.txid).catch((err) => console.log(err.response.data));
+    }
+
+    public async send(sendToAddressBase58check: string, privateKey: string, amount: number): Promise<any> {
+
+        // TODO: check available balance before proceding
+        // const availableBalance =  this.getBalance
+        // if (validAmount!){
+        //     throw (new Error("invalidAmount"));
+        // }
+
+        const transactionBuilder = new TransactionBuilder(networks.testnet);
+
+        transactionBuilder.addOutput(sendToAddressBase58check, amount);
+
+        const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
+        const fundFromAddress = privateKeyEC.getAddress();
+
+        const fee = await WalletServices.fundTransaction(fundFromAddress, transactionBuilder);
+
+        await WalletServices.signTransaction(transactionBuilder, privateKeyEC);
+
+        const tx = transactionBuilder.build();
+        const txHex = tx.toHex();
+
+        return txHex;
+    }
 
     public static async getUnspentOutputs(addressBase58check) {
         const numOfConfirmations = 1;
@@ -74,9 +114,5 @@ export class WalletServices {
         }
 
     }
-
-    // public async publishTx() {
-    //
-    // }
 
 }
