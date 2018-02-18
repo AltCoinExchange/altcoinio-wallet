@@ -24,8 +24,7 @@ describe("BtcAtomicSwap", () => {
     expect(typeof 1).toBe("number");
     const address = "n4DzdRiTaLh196mwxy5URSxQ53vRK5Fgkc";
     const transaction = new BtcTransaction("testnet");
-    const result = await transaction.sendCoins(address.toString(), 0.01, address.toString(), WIF);
-
+    const result = await transaction.sendCoins("n4MyVS5xKEvvB6Axen2QWDPNrFPoXhuQVc", 0.01, WIF, address);
   });
   //
   // it("Should pass initiate", async () => {

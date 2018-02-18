@@ -13,28 +13,36 @@ const Transaction = bitcore.Transaction;
 const Address = bitcore.Address;
 const Script = bitcore.Script;
 const BufferReader = bitcore.encoding.BufferReader;
+const Networks = bitcore.Networks;
 
 export class BtcTransaction {
   protected configuration: any;
   private rpc: any;
 
+  private network;
+
   constructor(net) {
     if (net === "testnet") {
       this.configuration = BtcRpcConfiguration;
       this.rpc = new RpcClient(BtcRpcConfiguration);
+      this.network = Networks.testnet;
     } else if (net === "mainnet") {
       // TODO
     }
   }
 
-  public async sendCoins(toAddress, amount, address, WIF) {
+  public async sendCoins(toAddress, amount, WIF, fromAddress?) {
     const privateKey = PrivateKey.fromWIF(WIF);
+    if (!fromAddress) {
+      const publicKey = privateKey.toPublicKey();
+      fromAddress = publicKey.toAddress(this.network);
+    }
     const value = Math.round(amount * 100000000);
     const transaction = new Transaction();
     transaction.to(toAddress, value)
-      .change(address)
+      .change(fromAddress)
       .sign(privateKey);
-    await this.fundTransaction(address, transaction);
+    await this.fundTransaction(fromAddress, transaction);
     const signatures = transaction.getSignatures(privateKey);
     for (const signature of signatures) {
       transaction.applySignature(signature);
