@@ -1,13 +1,15 @@
 // 7200, "0x" + secret.hashedSecret, AppConfig.hosts[1].defaultWallet, 10, 2000000
 
 import "jest";
-import {BtcParticipateParams, BtcRedeemParams} from "../src/btc/atomic-swap";
+import * as bitcore from "bitcore";
 
-import {BtcInitiateParams} from "../src/btc/atomic-swap/btc-initiate-params";
-import {FreshBitcoinWallet} from "../src/btc/fresh-btc";
-import {RegenerateBitcoinWallet} from "../src/btc/regenerate-btc";
-import {SecretGenerator} from "../src/common/hashing";
-import {BitcoinWallet} from "../src/index";
+import { BtcTransaction } from "../src/btc/btc-transaction";
+import { FreshBitcoinWallet } from "../src/btc/fresh-btc";
+import { RegenerateBitcoinWallet } from "../src/btc/regenerate-btc";
+const PrivateKey = bitcore.PrivateKey;
+const Networks = bitcore.Networks;
+
+
 
 const phrase = "away stomach fire police satoshi wire entire awake dilemma average town napkin";
 const hdPrivateKey = "tprv8ZgxMBicQKsPeTGpn6B6ZpfF6ptrEcpDcjgfyZwWgD3bLawHEnCjLG3rN8yxGQvBQizux6puMGM1zpdn35MsMiPC785yxZs4Mv5tzugdUwx";
@@ -18,8 +20,12 @@ const regenerateWallet = new RegenerateBitcoinWallet(hdPrivateKey);
 
 describe("BtcAtomicSwap", () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000000;
-  it("Should pass sanity", () => {
+  it("Should pass sanity", async () => {
     expect(typeof 1).toBe("number");
+    const address = "n4DzdRiTaLh196mwxy5URSxQ53vRK5Fgkc";
+    const transaction = new BtcTransaction("testnet");
+    const result = await transaction.sendCoins(address.toString(), 0.01, address.toString(), WIF);
+
   });
   //
   // it("Should pass initiate", async () => {
