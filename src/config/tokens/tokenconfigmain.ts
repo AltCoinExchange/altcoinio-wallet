@@ -88,10 +88,6 @@ export const TokenConfigMain = {
     code: "",
     contractAddress: "0x2e43b3eaaf56302d0f21e41b3065694e1c8a8f35"
   },
-  Ox: {
-    code: "",
-    contractAddress: "0x334ca5ce83a12207a3677eec2e723f4b0dee7f40"
-  },
   RequestNetwork: {
     code: "",
     contractAddress: "0xca401b69438a86d51a01b57788fdf007bd618ac7"
@@ -130,6 +126,10 @@ export const TokenConfigMain = {
   },
   ICON: {
     code: "",
-    contractAddress: "0xc7683b60eca623449d61d37433501bcbdaaf5bba3284bb4c063064ed8a898f58"
+    contractAddress: "0xa0c2ca4a88668f89991200b3773b3f97c0c50fa0"
   },
+  ZeroX: {
+    code: "",
+    contractAddress: "0x334ca5ce83a12207a3677eec2e723f4b0dee7f40"
+  }
 };
