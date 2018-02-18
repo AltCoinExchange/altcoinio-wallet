@@ -33,7 +33,6 @@ import {IconomiTokenTestnet} from "./iconomi";
 import {TenXPayTokenTestnet} from "./tenxpay";
 import {StorjTokenTestnet} from "./storj";
 
-
 export enum TOKENS {
   AUGUR = 1,
   GOLEM,
