@@ -129,18 +129,19 @@ var create_browser_version = function (inputJs) {
     });
 
     browserified.on('end', () => {
-        const options = {
-            mangle:{
-                keep_fnames: true,
-                properties:{
-                    reserved: ['BigInteger','ECPair','Point']
-                }
-            },
-            compress: {
-                keep_fnames: true
-            }
-        };
-        const uglified = UglifyJS.minify(data, options).code;
+        // const options = {
+        //     mangle:{
+        //         keep_fnames: true,
+        //         properties:{
+        //             reserved: ['BigInteger','ECPair','Point']
+        //         }
+        //     },
+        //     compress: {
+        //         keep_fnames: true
+        //     }
+        // };
+        // const uglified = UglifyJS.minify(data, options).code;
+        const uglified = UglifyJS.minify(data).code;
         const byte = encodeURI(uglified).split(/%..|./).length - 1;
         const aproxMb = (byte / 1024 / 1024).toString().substring(0, 4);
 
