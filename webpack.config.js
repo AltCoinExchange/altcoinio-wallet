@@ -135,7 +135,7 @@ var create_browser_version = function (inputJs) {
                     reserved: ['BigInteger','ECPair','Point']
                 }
             }
-        }
+        };
         const uglified = UglifyJS.minify(data, options).code;
         const byte = encodeURI(uglified).split(/%..|./).length - 1;
         const aproxMb = (byte / 1024 / 1024).toString().substring(0, 4);
