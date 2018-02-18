@@ -10,8 +10,12 @@ const hdPrivateKey = "tprv8ZgxMBicQKsPdxZqLMWLFLxJiYwSnP92WVXzkb3meDwix5nxQtNd21
     "mJAqEqGoYzR7vtZk8hrujhZVGBh1MMED8JnsNja8gEopYM";
 const WIF = "cQ63rjfvri2EHn6WvR5F9KGbgaGNRMvb7y9ra8ZuTyQVeteLZ66a";
 
+const hdPrivateKey1 = "tprv8ZgxMBicQKsPdtgdvk9TzSemm8zsgLE4huKZwvNo8PtEfmtEC3yKjRQyASg1p7YyCv3pdgS2cp1drNmnAeSZ36yf9mvAqNgN4BPS93PxcNU"
+
 const freshWallet = new FreshBitcoinWallet(phrase);
 const regenerateWallet = new RegenerateBitcoinWallet(hdPrivateKey);
+
+const regenerateWallet1 = new RegenerateBitcoinWallet(hdPrivateKey1);
 
 describe("BtcWallet", () => {
     it("Should be pass sanity", () => {
@@ -21,11 +25,17 @@ describe("BtcWallet", () => {
     it("Should be able to regenerate new wallet instance", () => {
         const btcWallet = new BitcoinWallet();
         btcWallet.recover(regenerateWallet);
-        console.log(regenerateWallet);
-        console.log(btcWallet.hdPrivateKey.toBase58());
 
         expect(btcWallet.hdPrivateKey.toBase58())
             .toEqual(hdPrivateKey);
+    });
+
+    it("Should be able to regenerate new wallet instance 1", () => {
+        const btcWallet = new BitcoinWallet();
+        btcWallet.recover(regenerateWallet1);
+
+        expect(btcWallet.hdPrivateKey.toBase58())
+            .toEqual(hdPrivateKey1);
     });
 
     it("Should be able to create new wallet instance", () => {
