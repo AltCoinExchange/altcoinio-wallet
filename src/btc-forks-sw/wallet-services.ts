@@ -25,7 +25,8 @@ export class WalletServices {
         //     console.log(err);
         // }
         // tslint:disable-next-line
-        return axios.post(url, data).then((res) => res.data.txid).catch((err) => console.log(err.response.data));
+        // return axios.post(url, data).then((res) => res.data.txid).catch((err) => console.log(err.response.data));
+        return axios.post(url, data).then((res) => res.data.txid).catch((err) => {throw new Error(`failed to publish tx, ${err}`); });
     }
 
     public async send(sendToAddressBase58check: string, privateKey: string, amount: number): Promise<any> {

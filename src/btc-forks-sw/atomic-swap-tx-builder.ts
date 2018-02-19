@@ -63,6 +63,8 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
 
         const lockData = await this.lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey);
 
+        await this.publishTx(lockData.lockTxHex);
+
         // TODO:reexamine what initiate returns
         return new BtcInitiateData(lockData.fee, lockData.P2SHaddress, lockData.lockScriptHex, lockData.txId, lockData.lockTxHex, lockData.txId, secretHex, secretHashHex);
     }
@@ -85,6 +87,8 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         const refundAddressBase58check = fundFromAddress;
 
         const lockData = await this.lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey);
+
+        await this.publishTx(lockData.lockTxHex);
 
         return new BtcParticipateData(lockData.fee, lockData.P2SHaddress, lockData.lockScriptHex, lockData.txId, lockData.lockTxHex, lockData.txId, undefined, secretHashHex);
     }
@@ -141,6 +145,8 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
 
         tx.setWitness(0, unlockScript);
 
+        await this.publishTx(tx.toHex());
+
         // TODO: do we need to return the secret, secretHash?
         return new BtcRedeemData(tx.toHex(), tx.getId(), secret, params.hashedSecret);
 
@@ -194,6 +200,8 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         tx.setInputScript(0, bscript.compile([redeemScript]));
 
         tx.setWitness(0, unlockScript);
+
+        await this.publishTx(tx.toHex());
 
         return new BtcRefundData(fee, tx.toHex());
     }
