@@ -144,7 +144,7 @@ var create_browser_version = function (inputJs) {
         // const uglified = UglifyJS.minify(data, options).code;
         const options = {
             mangle:{
-                reserved: ['BigInteger','ECPair','Point', 'networks']
+                reserved: ['BigInteger','ECPair','Point']
             }
         };
         const uglified = UglifyJS.minify(data, options).code;
