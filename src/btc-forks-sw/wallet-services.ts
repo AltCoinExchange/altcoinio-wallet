@@ -29,7 +29,7 @@ export class WalletServices {
         return axios.post(url, data).then((res) => res.data.txid).catch((err) => {throw new Error(`failed to publish tx, ${err}, ${err.response.data}`); });
     }
 
-    public async send(sendToAddressBase58check: string, privateKey: string, amount: number): Promise<any> {
+    public async send(sendToAddressBase58check: string, amount: number, privateKey: string): Promise<any> {
 
         // TODO: check available balance before proceding
         // const availableBalance =  this.getBalance
