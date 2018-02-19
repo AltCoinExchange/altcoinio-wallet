@@ -15,6 +15,23 @@ import {SubstratumTokenMainnet, SubstratumTokenTestnet} from "./substratum";
 import {TronTokenMainnet, TronTokenTestnet} from "./tron";
 import {BytomTokenMainnet, BytomTokenTestnet} from "./bytom";
 import {DentTokenTestnet} from "./dent";
+import {PopulousTokenTestnet} from "./populous";
+import {MakerTokenTestnet} from "./maker";
+import {DigixDAOTokenTestnet} from "./digixdao";
+import {QASHTokenTestnet} from "./qash";
+import {EthosTokenTestnet} from "./ethos";
+import {FunFairTokenTestnet} from "./funfair";
+import {RequestNetworkTokenTestnet} from "./requestnetwork";
+import {EnjinCoinTokenTestnet} from "./enjincoin";
+import {MonacoTokenTestnet} from "./monaco";
+import {EdgelessTokenTestnet} from "./edgeless";
+import {VeChainTokenTestnet} from "./vechain";
+import {ICONTokenTestnet} from "./icon";
+import {ZeroXTokenTestnet} from "./zerox";
+import {BancorTokenTestnet} from "./bancor";
+import {IconomiTokenTestnet} from "./iconomi";
+import {TenXPayTokenTestnet} from "./tenxpay";
+import {StorjTokenTestnet} from "./storj";
 
 export enum TOKENS {
   AUGUR = 1,
@@ -31,7 +48,24 @@ export enum TOKENS {
   SUBSTRATUM,
   TRON,
   BYTOM,
-  DENT
+  DENT,
+  POPULOUS,
+  MAKER,
+  DIGIXDAO,
+  QASH,
+  ETHOS,
+  FUNFAIR,
+  REQUESTNETWORK,
+  BANCOR,
+  ICONOMI,
+  TENXPAY,
+  STORJ,
+  ENJINCOIN,
+  MONACO,
+  EDGELESS,
+  VECHAIN,
+  ICON,
+  ZEROX
 }
 
 export class TokenFactory {
@@ -86,6 +120,57 @@ export class TokenFactory {
       case TOKENS.DENT: {
         return new DentTokenTestnet(engine);
       }
+      case TOKENS.POPULOUS: {
+        return new PopulousTokenTestnet(engine);
+      }
+      case TOKENS.MAKER: {
+        return new MakerTokenTestnet(engine);
+      }
+      case TOKENS.DIGIXDAO: {
+        return new DigixDAOTokenTestnet(engine);
+      }
+      case TOKENS.QASH: {
+        return new QASHTokenTestnet(engine);
+      }
+      case TOKENS.ETHOS: {
+        return new EthosTokenTestnet(engine);
+      }
+      case TOKENS.FUNFAIR: {
+        return new FunFairTokenTestnet(engine);
+      }
+      case TOKENS.REQUESTNETWORK: {
+        return new RequestNetworkTokenTestnet(engine);
+      }
+      case TOKENS.BANCOR: {
+        return new BancorTokenTestnet(engine);
+      }
+      case TOKENS.ICONOMI: {
+        return new IconomiTokenTestnet(engine);
+      }
+      case TOKENS.TENXPAY: {
+        return new TenXPayTokenTestnet(engine);
+      }
+      case TOKENS.STORJ: {
+        return new StorjTokenTestnet(engine);
+      }
+      case TOKENS.ENJINCOIN: {
+        return new EnjinCoinTokenTestnet(engine);
+      }
+      case TOKENS.MONACO: {
+        return new MonacoTokenTestnet(engine);
+      }
+      case TOKENS.EDGELESS: {
+        return new EdgelessTokenTestnet(engine);
+      }
+      case TOKENS.VECHAIN: {
+        return new VeChainTokenTestnet(engine);
+      }
+      case TOKENS.ICON: {
+        return new ICONTokenTestnet(engine);
+      }
+      case TOKENS.ZEROX: {
+        return new ZeroXTokenTestnet(engine);
+      }
     }
   }
 
@@ -135,6 +220,57 @@ export class TokenFactory {
       }
       case TOKENS.DENT: {
         return new DentTokenTestnet(engine);
+      }
+      case TOKENS.POPULOUS: {
+        return new PopulousTokenTestnet(engine);
+      }
+      case TOKENS.MAKER: {
+        return new MakerTokenTestnet(engine);
+      }
+      case TOKENS.DIGIXDAO: {
+        return new DigixDAOTokenTestnet(engine);
+      }
+      case TOKENS.QASH: {
+        return new QASHTokenTestnet(engine);
+      }
+      case TOKENS.ETHOS: {
+        return new EthosTokenTestnet(engine);
+      }
+      case TOKENS.FUNFAIR: {
+        return new FunFairTokenTestnet(engine);
+      }
+      case TOKENS.REQUESTNETWORK: {
+        return new RequestNetworkTokenTestnet(engine);
+      }
+      case TOKENS.BANCOR: {
+        return new BancorTokenTestnet(engine);
+      }
+      case TOKENS.ICONOMI: {
+        return new IconomiTokenTestnet(engine);
+      }
+      case TOKENS.TENXPAY: {
+        return new TenXPayTokenTestnet(engine);
+      }
+      case TOKENS.STORJ: {
+        return new StorjTokenTestnet(engine);
+      }
+      case TOKENS.ENJINCOIN: {
+        return new EnjinCoinTokenTestnet(engine);
+      }
+      case TOKENS.MONACO: {
+        return new MonacoTokenTestnet(engine);
+      }
+      case TOKENS.EDGELESS: {
+        return new EdgelessTokenTestnet(engine);
+      }
+      case TOKENS.VECHAIN: {
+        return new VeChainTokenTestnet(engine);
+      }
+      case TOKENS.ICON: {
+        return new ICONTokenTestnet(engine);
+      }
+      case TOKENS.ZEROX: {
+        return new ZeroXTokenTestnet(engine);
       }
     }
   }
