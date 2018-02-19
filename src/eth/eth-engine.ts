@@ -200,7 +200,7 @@ export class EthEngine {
         const hdKey = HDNode.fromBase58(pkSeed, networks.testnet);
         // tslint:disable-next-line
         console.log("hdKey!!!", hdKey);
-        const privKey: string = hdKey.keypair.toWIF();
+        const privKey: string = hdKey.keyPair.toWIF();
         // tslint:disable-next-line
         console.log(privKey);
 
