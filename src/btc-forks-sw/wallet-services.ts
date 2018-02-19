@@ -8,7 +8,7 @@ export class WalletServices {
     protected configuration: any;
 
     // TODO: add return type, should be satoshis
-    public static async getBalance(address: string): Promise<any> {
+    public async getBalance(address: string): Promise<any> {
         return await axios.get("https://chain.so/api/v2/get_address_balance/BTCTEST/" + address).then((response) => {
             return response.data.data.confirmed_balance;
         });
