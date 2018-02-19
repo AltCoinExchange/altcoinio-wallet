@@ -102,7 +102,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
 
         // TODO: why is this necessery?
         const lockParams = AtomicSwapScriptTemplates.extractLockParams(lockScriptHex);
-        // TODO: is this necessery?? recipientAddressBase58check sase which addres can do the redeem
+        // TODO: is this necessery?? recipientAddressBase58check sase which address can do the redeem
         const recipientAddressBase58check = lockParams.recipientAddressBase58check;
 
         const lockScript = Buffer.from(lockScriptHex, "hex");

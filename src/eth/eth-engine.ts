@@ -198,11 +198,7 @@ export class EthEngine {
 
     public recoverAccount(pkSeed) {
         const hdKey = HDNode.fromBase58(pkSeed, networks.testnet);
-        // tslint:disable-next-line
-        console.log("hdKey!!!", hdKey);
         const privKey: string = hdKey.keyPair.toWIF();
-        // tslint:disable-next-line
-        console.log(privKey);
 
         const accounts = this.web3.eth.accounts;
         const acc = accounts.privateKeyToAccount("0x" + privKey);
