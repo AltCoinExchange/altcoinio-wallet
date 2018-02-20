@@ -36,7 +36,6 @@ export class WalletServices {
         // if (validAmount!){
         //     throw (new Error("invalidAmount"));
         // }
-
         const transactionBuilder = new TransactionBuilder(networks.testnet);
 
         transactionBuilder.addOutput(sendToAddressBase58check, amount);

@@ -24,7 +24,7 @@ export class BtcParticipateParams extends ParticipateParams {
 
 // TODO: refactor
 export class BtcRedeemParams extends RedeemParams {
-    constructor(secretHex: string, secretHashHex: string, public lockScriptHex: string, public txHex: string, public privateKey: string, public extendedParams?: any) {
+    constructor(public privateKey: string, secretHex: string, secretHashHex: string, public lockScriptHex: string, public txHex: string, public extendedParams?: any) {
         super(secretHex, secretHashHex);
     }
 

@@ -173,7 +173,7 @@ describe("AtomicSwapTxBuilder", () => {
         const address1 = "mnw7yBjxmEtKtHn3HJaqsYtmbztq3eKc6U";
         const privateKey1 = "cUfKPZw418973NhJ7sxH99XSjnqDVJYyzx3m6mmg5neaYb15NZf5";
 
-        const btcRedeemParams = new BtcRedeemParams(testLockTx.secret, testLockTx.secretHashHexStr, testLockTx.lockScriptHex, testLockTx.txHexString, privateKey1);
+        const btcRedeemParams = new BtcRedeemParams(privateKey1, testLockTx.secret, testLockTx.secretHashHexStr, testLockTx.lockScriptHex, testLockTx.txHexString);
         const atomicSwapTxBuilder = new AtomicSwapTxBuilder;
         const redeemData = await atomicSwapTxBuilder.redeem(btcRedeemParams);
 
