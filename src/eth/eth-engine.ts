@@ -1,5 +1,4 @@
 import * as Web3 from "web3/src";
-import {Contract} from "web3/types";
 import {IEthAccount} from "./eth-account";
 import axios from "axios";
 import * as bitcore from "bitcore";
@@ -15,7 +14,7 @@ export enum EthConfirmation {
 
 export class EthEngine {
     protected web3: any;
-    private contract: Contract;
+    private contract: any;
     private maxThreads = 20;
     private firstBlockNumber = 1909000;
 
