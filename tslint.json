@@ -1,6 +1,7 @@
 {
 	"extends": "tslint:recommended",
 	"rules": {
+		"max-line-length":200,
 		"ordered-imports": false,
 		"object-literal-sort-keys": false,
 		"quotemark": true,

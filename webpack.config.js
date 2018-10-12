@@ -16,7 +16,7 @@ var libPath = function (name) {
     }
 
     return path.join('dist', name);
-}
+};
 
 /* helper to clean leftovers */
 var outputCleanup = function (dir) {
@@ -52,7 +52,7 @@ var percentage_handler = function handler(percentage, msg) {
         // TODO: No Error detection. :(
         create_browser_version(webpack_opts.output.filename);
     }
-}
+};
 
 var webpack_opts = {
     entry: './src/index.ts',
@@ -104,7 +104,7 @@ var webpack_opts = {
         }),
         new webpack.ProgressPlugin(percentage_handler)
     ],
-}
+};
 
 var create_browser_version = function (inputJs) {
     let outputName = inputJs.replace(/\.[^/.]+$/, '');
@@ -113,32 +113,8 @@ var create_browser_version = function (inputJs) {
 
     let b = browserify(inputJs, {
         standalone: LIB_NAME,
-    });
-
-    let writeStream = fs.createWriteStream(outputName);
-    const browserified = b.bundle(function (err, src) {
-        if (err !== null) {
-            console.error('Browserify error:');
-            console.error(err);
-        }
-    });
-
-    let data = "";
-    browserified.on('data', (chunk) => {
-        data += chunk;
-    });
-
-    browserified.on('end', () => {
-        const uglified = UglifyJS.minify(data).code;
-        const byte = encodeURI(uglified).split(/%..|./).length - 1;
-        const aproxMb = (byte / 1024 / 1024).toString().substring(0, 4);
-
-        console.log("Approximate size: " + aproxMb + " MB!");
-
-        writeStream.write(uglified);
-        writeStream.end();
-    });
-
+    }).bundle()
+      .pipe(fs.createWriteStream(outputName));
 };
 
 module.exports = webpack_opts;

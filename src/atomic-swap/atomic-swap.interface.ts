@@ -16,7 +16,7 @@ export interface IAtomicSwap {
 
   redeem(params: RedeemParams): Promise<RedeemData>;
 
-  extractSecret(extractSecretParams: ExtractSecretParams): Promise<ExtractSecretData>;
+  extractSecret(params: ExtractSecretParams): Promise<ExtractSecretData>;
 
-  refund(refundParams: RefundParams): Promise<RefundData>;
+  refund(params: RefundParams): Promise<RefundData>;
 }
