@@ -272,6 +272,26 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         return parseInt((currDate.getTime() / 1000).toFixed(0), 10);
     }
 
+    public async sendCoins(toAddress, amount, WIF, fromAddress?) {
+        const privateKey = ECPair.fromWIF(WIF, networks.testnet);
+        if (!fromAddress) {
+            const publicKey = privateKey.toPublicKey();
+            fromAddress = publicKey.toAddress(networks.testnet);
+        }
+
+        const value = Math.round(amount * 100000000);
+        const transaction = new Transaction();
+        transaction.to(toAddress, value)
+          .change(fromAddress)
+          .sign(privateKey);
+        await AtomicSwapTxBuilder.fundTransaction(fromAddress, transaction);
+        const signatures = transaction.getSignatures(privateKey);
+        for (const signature of signatures) {
+            transaction.applySignature(signature);
+        }
+        return await this.publishTx(transaction.toString());
+    }
+
     private async lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey) {
 
         const lockScript = AtomicSwapScriptTemplates.lockScript(refundAddressBase58check, recipientAddressBase58check, lockTime, secretHashHex);
