@@ -271,33 +271,37 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         return parseInt((currDate.getTime() / 1000).toFixed(0), 10);
     }
 
-    // public async sendCoins(toAddress, amount, WIF, fromAddress?) {
-    //     const privateKey = ECPair.fromWIF(WIF, networks.testnet);
-    //     if (!fromAddress) {
-    //         const publicKey = privateKey.publicKey;
-    //         fromAddress = payments.p2pkh( { pubkey: privateKey.publicKey, network: networks.testnet });
-    //         // fromAddress = publicKey.toAddress(networks.testnet);
-    //     }
-    //
-    //     const value = Math.round(amount * 100000000);
-    //
-    //     // Create transaction
-    //     const transactionBuilder = new TransactionBuilder(networks.testnet);
-    //
-    //     // transactionBuilder.addOutput()
-    //     const transaction = new Transaction();
-    //     transaction.addOutput()
-    //
-    //     transaction.to(toAddress, value)
-    //       .change(fromAddress)
-    //       .sign(privateKey);
-    //     await AtomicSwapTxBuilder.fundTransaction(fromAddress, transaction);
-    //     const signatures = transaction.getSignatures(privateKey);
-    //     for (const signature of signatures) {
-    //         transaction.applySignature(signature);
-    //     }
-    //     return await this.publishTx(transaction.toString());
-    //     }
+    public async sendCoins(toAddress, amount, WIF, fromAddress?) {
+        const privateKey = ECPair.fromWIF(WIF, networks.testnet);
+        if (!fromAddress) {
+            const publicKey = privateKey.publicKey;
+            fromAddress = payments.p2pkh( { pubkey: privateKey.publicKey, network: networks.testnet });
+            // fromAddress = publicKey.toAddress(networks.testnet);
+        }
+
+        const value = Math.round(amount * 100000000);
+
+        // Create transaction
+        const transactionBuilder = new TransactionBuilder(networks.testnet);
+        transactionBuilder.addOutput(toAddress, value);
+
+        // transaction.to(toAddress, value)
+        //  .change(fromAddress)
+        //  .sign(privateKey);
+        await AtomicSwapTxBuilder.fundTransaction(fromAddress, transactionBuilder);
+        const transaction = transactionBuilder.build();
+
+        for (const i of transaction.ins) {
+            transactionBuilder.sign(i.index, privateKey);
+        }
+
+        // const finalTransaction = transactionBuilder.sign( privateKey, ).build();
+        // const signatures = transaction.getSignatures(privateKey);
+        // for (const signature of signatures) {
+        //     transaction.applySignature(signature);
+        // }
+        return await this.publishTx(transactionBuilder.build().toString());
+    }
 
     private async lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey) {
 
