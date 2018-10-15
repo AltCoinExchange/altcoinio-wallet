@@ -14,7 +14,7 @@
     "babel": "babel dist/index.browser.js -o dist/index.browser.js --presets=es2015",
     "brows": "browserify dist/index.js -o alo.js -t [ babelify --presets [ @babel/preset-env ] ]",
     "uglify": "uglifyjs --mangle reserved=['BigInteger','ECPair','Point'] dist/index.browser.js -o dist/index.browser.js",
-    "build": "webpack || echo not ok && npm run uglify && npm run babel",
+    "build": "webpack || echo not ok && npm run babel && npm run uglify",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
