@@ -11,9 +11,10 @@
     "dist/index.js": "./dist/index.browser.js"
   },
   "scripts": {
-    "brows": "browserify dist/index.js -o alo.js -t [ babelify --presets [ @babel/preset-es2015 ] ]",
+    "babel": "babel dist/index.browser.js -o dist/index.browser.js --presets=es2015",
+    "brows": "browserify dist/index.js -o alo.js -t [ babelify --presets [ @babel/preset-env ] ]",
     "uglify": "uglifyjs --mangle reserved=['BigInteger','ECPair','Point'] dist/index.browser.js -o dist/index.browser.js",
-    "build": "webpack || echo not ok && npm run uglify",
+    "build": "webpack || echo not ok && npm run uglify && npm run babel",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
