@@ -2,7 +2,8 @@ import * as Web3 from "web3/src";
 import {IEthAccount} from "./eth-account";
 import axios from "axios";
 // TODO: refactor this, it is best to put the logic for what these libraries are used for into hd-bip44
-import {HDNode, networks} from "bitcoinjs-lib";
+import {networks} from "bitcoinjs-lib";
+import * as BIP32 from "bip32";
 
 const walletN = 256;
 
@@ -196,8 +197,11 @@ export class EthEngine {
     }
 
     public recoverAccount(pkSeed) {
-        const hdKey = HDNode.fromBase58(pkSeed, networks.testnet);
-        const privKey: string = hdKey.keyPair.toWIF();
+
+        const hdKey = BIP32.fromBase58(pkSeed, networks.testnet);
+        // const hdKey = HDNode.fromBase58(pkSeed, networks.testnet);
+        // const privKey: string = hdKey.keyPair.toWIF();
+        const privKey: string = hdKey.toWIF();
 
         const accounts = this.web3.eth.accounts;
         const acc = accounts.privateKeyToAccount("0x" + privKey);

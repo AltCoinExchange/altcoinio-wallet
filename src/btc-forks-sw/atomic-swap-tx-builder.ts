@@ -4,15 +4,14 @@ import {WalletServices} from "./wallet-services";
 import {SecretGenerator, Ripemd160} from "../common/hashing";
 
 import {
-    TransactionBuilder,
-    script as bscript,
-    opcodes,
-    address,
-    networks,
-    crypto,
-    ECPair,
-    ECSignature,
-    Transaction
+  TransactionBuilder,
+  script as bscript,
+  opcodes,
+  address,
+  networks,
+  crypto,
+  ECPair,
+  Transaction, payments, script
 } from "bitcoinjs-lib";
 
 import {
@@ -58,8 +57,8 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         // const testAddress = "muFLuY5NUd3bh828Wv2xiorU963gqqurNu"
         // const refundAddressBase58check: string = testAddress
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const fundFromAddress = privateKeyEC.getAddress();
-        const refundAddressBase58check = fundFromAddress;
+        // const fundFromAddress = privateKeyEC.getAddress();
+        const refundAddressBase58check = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
 
         const lockData = await this.lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey);
 
@@ -83,8 +82,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         // const testAddress = "muFLuY5NUd3bh828Wv2xiorU963gqqurNu"
         // const refundAddressBase58check: string = testAddress
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const fundFromAddress = privateKeyEC.getAddress();
-        const refundAddressBase58check = fundFromAddress;
+        const refundAddressBase58check = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
 
         const lockData = await this.lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey);
 
@@ -119,8 +117,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         // const testAddress = "mqxi5XsoUkL2u7oes9LFWjDjfZ1dhkG3uM"
         // const redeemToAddr = testAddress
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const fundFromAddress = privateKeyEC.getAddress();
-        const redeemToAddr = fundFromAddress;
+        const redeemToAddr = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
 
         const transactionBuilder = new TransactionBuilder(networks.testnet);
 
@@ -137,9 +134,11 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         const keyPair = ECPair.fromWIF(privateKey, networks.testnet);
         const signature = keyPair.sign(signatureHash);
 
-        const signatureForScript = signature.toScriptSignature(Transaction.SIGHASH_ALL);
+        const signatureForScript = script.signature.decode(signature).signature;
 
-        const unlockScript: any = AtomicSwapScriptTemplates.redeemScript(lockScript, signatureForScript, keyPair.getPublicKeyBuffer(), secret);
+        // const signatureForScript = signature.toScriptSignature(Transaction.SIGHASH_ALL);
+
+        const unlockScript: any = AtomicSwapScriptTemplates.redeemScript(lockScript, signatureForScript, keyPair.publicKey, secret);
 
         tx.setInputScript(0, bscript.compile([redeemScript]));
 
@@ -193,9 +192,9 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         const keyPair = ECPair.fromWIF(privateKey, networks.testnet);
         const signature = keyPair.sign(signatureHash);
 
-        const signatureForScript = signature.toScriptSignature(Transaction.SIGHASH_ALL);
+        const signatureForScript = script.signature.decode(signature).signature;  // signature.toScriptSignature(Transaction.SIGHASH_ALL);
 
-        const unlockScript: any = AtomicSwapScriptTemplates.refundScript(lockScript, signatureForScript, keyPair.getPublicKeyBuffer());
+        const unlockScript: any = AtomicSwapScriptTemplates.refundScript(lockScript, signatureForScript, keyPair.publicKey);
 
         tx.setInputScript(0, bscript.compile([redeemScript]));
 
@@ -272,25 +271,33 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         return parseInt((currDate.getTime() / 1000).toFixed(0), 10);
     }
 
-    public async sendCoins(toAddress, amount, WIF, fromAddress?) {
-        const privateKey = ECPair.fromWIF(WIF, networks.testnet);
-        if (!fromAddress) {
-            const publicKey = privateKey.toPublicKey();
-            fromAddress = publicKey.toAddress(networks.testnet);
-        }
-
-        const value = Math.round(amount * 100000000);
-        const transaction = new Transaction();
-        transaction.to(toAddress, value)
-          .change(fromAddress)
-          .sign(privateKey);
-        await AtomicSwapTxBuilder.fundTransaction(fromAddress, transaction);
-        const signatures = transaction.getSignatures(privateKey);
-        for (const signature of signatures) {
-            transaction.applySignature(signature);
-        }
-        return await this.publishTx(transaction.toString());
-    }
+    // public async sendCoins(toAddress, amount, WIF, fromAddress?) {
+    //     const privateKey = ECPair.fromWIF(WIF, networks.testnet);
+    //     if (!fromAddress) {
+    //         const publicKey = privateKey.publicKey;
+    //         fromAddress = payments.p2pkh( { pubkey: privateKey.publicKey, network: networks.testnet });
+    //         // fromAddress = publicKey.toAddress(networks.testnet);
+    //     }
+    //
+    //     const value = Math.round(amount * 100000000);
+    //
+    //     // Create transaction
+    //     const transactionBuilder = new TransactionBuilder(networks.testnet);
+    //
+    //     // transactionBuilder.addOutput()
+    //     const transaction = new Transaction();
+    //     transaction.addOutput()
+    //
+    //     transaction.to(toAddress, value)
+    //       .change(fromAddress)
+    //       .sign(privateKey);
+    //     await AtomicSwapTxBuilder.fundTransaction(fromAddress, transaction);
+    //     const signatures = transaction.getSignatures(privateKey);
+    //     for (const signature of signatures) {
+    //         transaction.applySignature(signature);
+    //     }
+    //     return await this.publishTx(transaction.toString());
+    //     }
 
     private async lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey) {
 
@@ -301,10 +308,14 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         const witnessScript = lockScript;
         const witnessScriptHash = crypto.sha256(witnessScript);
 
-        const redeemScript = bscript.witnessScriptHash.output.encode(witnessScriptHash);
+        const redeemScript = bscript.signature.encode(witnessScriptHash, Transaction.SIGHASH_ALL);
+
+        // const redeemScript = bscript.witnessScriptHash.output.encode(witnessScriptHash);
         const redeemScriptHash = crypto.hash160(redeemScript);
 
-        const scriptPubKey = bscript.scriptHash.output.encode(redeemScriptHash);
+        // const scriptPubKey = bscript.scriptHash.output.encode(redeemScriptHash);
+        const scriptPubKey = bscript.signature.encode(redeemScriptHash, Transaction.SIGHASH_ALL);
+
         const P2SHaddress = address.fromOutputScript(scriptPubKey, networks.testnet);
 
         // const witnessScript = lockScript
@@ -316,7 +327,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         transactionBuilder.addOutput(scriptPubKey, amount);
 
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const fundFromAddress = privateKeyEC.getAddress();
+        const fundFromAddress = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
 
         const fee = await WalletServices.fundTransaction(fundFromAddress, transactionBuilder);
 
@@ -334,11 +345,14 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
     private expandWitnessScript(witnessScript: Buffer) {
         const witnessScriptHash = crypto.sha256(witnessScript);
 
-        const redeemScript = bscript.witnessScriptHash.output.encode(witnessScriptHash);
+        const redeemScript = bscript.signature.encode(witnessScriptHash, Transaction.SIGHASH_ALL);
+
+        // const redeemScript = bscript.witnessScriptHash.output.encode(witnessScriptHash);
 
         const redeemScriptHash = crypto.hash160(redeemScript);
 
-        const scriptPubKey = bscript.scriptHash.output.encode(redeemScriptHash);
+        // const scriptPubKey = bscript.scriptHash.output.encode(redeemScriptHash);
+        const scriptPubKey = bscript.signature.encode(redeemScriptHash, Transaction.SIGHASH_ALL);
         const P2SHaddress = address.fromOutputScript(scriptPubKey, networks.testnet);
 
         return {witnessScriptHash, redeemScript, redeemScriptHash, scriptPubKey, P2SHaddress};

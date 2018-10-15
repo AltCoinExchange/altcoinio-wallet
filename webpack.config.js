@@ -1,6 +1,7 @@
 var nodeExternals = require('webpack-node-externals');
 var webpack = require('webpack');
 var browserify = require('browserify');
+var babelify = require('babelify');
 var path = require('path');
 var fs = require('fs');
 var os = require('os');

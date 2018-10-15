@@ -1,7 +1,5 @@
-import axios from "axios";
-
 import * as bip39 from "bip39";
-import {HDNode, ECPair, networks} from "bitcoinjs-lib";
+import {ECPair, networks, payments} from "bitcoinjs-lib";
 
 import {AtomicSwapTxBuilder} from "./atomic-swap-tx-builder";
 
@@ -10,6 +8,7 @@ import {BtcConfiguration} from "../config/config-btc";
 
 import {FreshBitcoinWallet} from "./fresh-btc";
 import {RegenerateBitcoinWallet} from "./regenerate-btc";
+import * as BIP32 from "bip32";
 
 // TODO: refactor BitcoinWallet to use typescript mixins
 export class BitcoinWallet extends AtomicSwapTxBuilder {
@@ -48,7 +47,7 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
         // TODO: refactor
         // NOTE: params.code is in this case xprivKey, it should be called params.xprivKey
         // this.hierarchicalPrivateKey = new HDPrivateKey(params.code);
-        this.hierarchicalPrivateKey = HDNode.fromBase58(params.code, networks.testnet);
+        this.hierarchicalPrivateKey = BIP32.fromBase58(params.code, networks.testnet);
     }
 
     public create(params: FreshBitcoinWallet) {
@@ -70,10 +69,11 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
             wif = this.WIF;
         }
         const keypair = ECPair.fromWIF(wif, networks.testnet);
-        return keypair.getAddress();
+        const { address } = payments.p2pkh({ pubkey: keypair.publicKey });
+        return address;
     }
 
     private generateHDPrivateKey(seed: Buffer): void {
-        this.hierarchicalPrivateKey = HDNode.fromSeedBuffer(seed, networks.testnet);
+        this.hierarchicalPrivateKey = BIP32.fromSeed(seed, networks.testnet);
     }
 }

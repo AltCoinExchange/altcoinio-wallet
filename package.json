@@ -11,8 +11,9 @@
     "dist/index.js": "./dist/index.browser.js"
   },
   "scripts": {
+    "brows": "browserify dist/index.js -o alo.js -t [ babelify --presets [ @babel/preset-es2015 ] ]",
     "uglify": "uglifyjs --mangle reserved=['BigInteger','ECPair','Point'] dist/index.browser.js -o dist/index.browser.js",
-    "build": "webpack || echo not ok && babel dist/index.browser.js -o dist/index.browser.js --presets=es2015 && npm run uglify",
+    "build": "webpack || echo not ok && npm run uglify",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
@@ -43,6 +44,8 @@
   "author": "altcoin.io",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@babel/core": "7.0.0-beta.50",
     "@types/jest": "^20.0.7",
     "@types/node": "^8.0.24",
     "babel-cli": "^6.26.0",
@@ -68,6 +71,8 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "@types/bip32": "^1.0.0",
+    "@types/bitcoinjs-lib": "^4.0.0",
     "augur-contracts": "^3.3.10",
     "axios": "^0.17.1",
     "bip39": "git+https://github.com/AltCoinExchange/bip39.git",

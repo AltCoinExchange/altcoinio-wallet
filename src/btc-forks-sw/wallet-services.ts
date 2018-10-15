@@ -1,5 +1,5 @@
 import axios from "axios";
-import {TransactionBuilder, Transaction, ECPair, Satoshi, networks} from "bitcoinjs-lib";
+import {TransactionBuilder, Transaction, ECPair, networks, payments} from "bitcoinjs-lib";
 // tslint:disable-next-line
 let coinSelect = require('coinselect');
 import * as querystring from "querystring";
@@ -41,9 +41,10 @@ export class WalletServices {
         transactionBuilder.addOutput(sendToAddressBase58check, amount);
 
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const fundFromAddress = privateKeyEC.getAddress();
+        const { address } = payments.p2pkh({ pubkey: privateKeyEC.publicKey });
+        // const fundFromAddress = privateKeyEC.getAddress();
 
-        const fee = await WalletServices.fundTransaction(fundFromAddress, transactionBuilder);
+        const fee = await WalletServices.fundTransaction(address, transactionBuilder);
 
         await WalletServices.signTransaction(transactionBuilder, privateKeyEC);
 
@@ -87,7 +88,7 @@ export class WalletServices {
 
         const feeRate = 900;
 
-        const {inputs, outputs, fee} = coinSelect(utxos, txb.tx.outs, feeRate);
+        const {inputs, outputs, fee} = coinSelect(utxos, txb.build().outs, feeRate);
 
         if (!inputs || !outputs) {
             throw new Error("Insufficient funds");
@@ -109,7 +110,7 @@ export class WalletServices {
     }
 
     public static async signTransaction(txb: TransactionBuilder, privateKeyEC: ECPair) {
-        for (let i = 0; i < txb.tx.ins.length; i++) {
+        for (let i = 0; i < txb.build().ins.length; i++) {
             txb.sign(i, privateKeyEC);
         }
 
