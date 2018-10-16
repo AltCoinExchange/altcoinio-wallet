@@ -8,6 +8,8 @@ import {BtcConfiguration} from "../config/config-btc";
 
 import {FreshBitcoinWallet} from "./fresh-btc";
 import {RegenerateBitcoinWallet} from "./regenerate-btc";
+// tslint:disable-next-line
+// const BIP32 = require("bip32");
 import * as BIP32 from "bip32";
 
 // TODO: refactor BitcoinWallet to use typescript mixins
@@ -33,7 +35,7 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
     }
 
     public get WIF(): string {
-        return this.hierarchicalPrivateKey.keyPair.toWIF();
+        return this.hierarchicalPrivateKey.toWIF();
     }
 
     // TODO: remove this. getbalance belongs in to wallet-services.ts

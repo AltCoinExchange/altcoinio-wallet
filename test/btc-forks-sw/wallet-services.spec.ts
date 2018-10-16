@@ -37,7 +37,7 @@ it("should publish tx", async () => {
 
 });
 
-// TODO: finnish writing this test, IT ISN'T WORKING NOW
+// TODO: finish writing this test, IT ISN'T WORKING NOW
 // it("fundTransaction, should fund the transaction passed by reference", async () => {
 //
 //     const lockTime: number = AtomicSwapTxBuilder.getLockTimeForXhours()

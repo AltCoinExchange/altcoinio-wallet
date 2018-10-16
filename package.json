@@ -11,17 +11,17 @@
     "dist/index.js": "./dist/index.browser.js"
   },
   "scripts": {
+    "babel-bip32": "babel node_modules/bip32/index.js -o node_modules/bip32/index.js --presets=es2015",
+    "babel-bitcoinjs": "babel node_modules/bitcoinjs-lib/src node_modules/bitcoinjs-lib/src/payments node_modules/bitcoinjs-lib/src/templates -o node_modules/bitcoinjs-lib/src/index.js --presets=es2015",
     "babel": "babel dist/index.browser.js -o dist/index.browser.js --presets=es2015",
-    "brows": "browserify dist/index.js -o alo.js -t [ babelify --presets [ @babel/preset-env ] ]",
+    "brows": "browserify dist/index.js -o alo.js -t [ babelify --presets [ es2015 ] ]",
     "uglify": "uglifyjs --mangle reserved=['BigInteger','ECPair','Point'] dist/index.browser.js -o dist/index.browser.js",
-    "build": "webpack || echo not ok && npm run babel && npm run uglify",
+    "build": "webpack || echo not ok && npm run uglify",
     "test:watch": "npm test -- --watch",
     "coverage": "npm test -- --coverage --no-cache",
     "coverage:watch": "npm run coverage -- --watch",
     "prepare": "npm run build && npm test",
-    "release": "standard-version && npm pack",
-    "fix-bitcore": "./fix_scripts/fix_bitcore.sh",
-    "postinstall": "postinstall-build . fix_scripts/fix_bitcore.sh"
+    "release": "standard-version && npm pack"
   },
   "repository": {
     "type": "git",
@@ -45,16 +45,20 @@
   "author": "altcoin.io",
   "license": "MIT",
   "devDependencies": {
-    "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/core": "7.0.0-beta.50",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
     "@types/jest": "^20.0.7",
     "@types/node": "^8.0.24",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
+    "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
+    "babel-plugin-transform-es3-property-literals": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^8.0.0",
-    "bigi": "^1.4.2",
+    "bigi": "file:node_modules/bigi",
     "browserify": "^16.2.3",
     "delete-empty": "^1.0.1",
     "dts-bundle": "^0.7.3",
@@ -66,7 +70,6 @@
     "tslint-loader": "^3.5.3",
     "typescript": "^2.4.2",
     "uglify-es": "^3.3.9",
-    "uglify-js": "^3.3.4",
     "uglify-stream": "^1.1.0",
     "webpack": "^3.5.5",
     "webpack-node-externals": "^1.6.0"

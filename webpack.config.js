@@ -114,7 +114,13 @@ var create_browser_version = function (inputJs) {
 
     let b = browserify(inputJs, {
         standalone: LIB_NAME,
-    }).bundle()
+    }).transform(babelify, {
+        presets: ["es2015"],
+        global: true,
+        ignore: /\/node_modules\//,
+        // test: /\/node_modules\/bitcoinjs-lib/,
+        plugins: ["transform-es2015-block-scoping"]})
+      .bundle()
       .pipe(fs.createWriteStream(outputName));
 };
 

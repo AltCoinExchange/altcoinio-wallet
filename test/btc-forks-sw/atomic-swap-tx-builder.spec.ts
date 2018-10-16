@@ -5,8 +5,6 @@ import {AtomicSwapScriptTemplates} from "../../src/btc-forks-sw/atomic-swap-scri
 import {AtomicSwapTxBuilder} from "../../src/btc-forks-sw/atomic-swap-tx-builder";
 import {TransactionBuilder} from "bitcoinjs-lib";
 
-const assert = require('assert');
-
 import {
     BtcAuditContractParams, BtcExtractSecretParams, BtcInitiateParams, BtcParticipateParams, BtcRedeemParams,
     BtcRefundParams
@@ -52,19 +50,15 @@ describe("AtomicSwapTxBuilder", () => {
     const address1 = "mnw7yBjxmEtKtHn3HJaqsYtmbztq3eKc6U";
     const privateKey1 = "cUfKPZw418973NhJ7sxH99XSjnqDVJYyzx3m6mmg5neaYb15NZf5";
 
-    //ATTENTION: tou can not write a test case for this because it is not deterministic (secretGenereator
     it("Should return valid initiate data", async () => {
 
         console.log("initiate!!!!!!");
 
         const btcInitiateParams = new BtcInitiateParams(0, privateKey, address1, 1000000);
-        const atomicSwapTxBuilder = new AtomicSwapTxBuilder;
+        const atomicSwapTxBuilder = new AtomicSwapTxBuilder();
         const initiateData = await atomicSwapTxBuilder.initiate(btcInitiateParams);
 
         console.log(initiateData);
-
-        // assert.equal(initiate, testDataInitRedeem.initiate)
-
     });
 
     it("Should return valid participate data", async () => {
@@ -131,10 +125,10 @@ describe("AtomicSwapTxBuilder", () => {
         //         rawTx: 'cb70fc42e9231c9093db6a0d874f8b150f99021dde83432aa37c9610ac7cbe3b' }
 
         const testLockTx = {
-            txHexString: '01000000012118d97ef4da3fa4cd5aea6ba3aaa0916c00d22b782be26b52b99763ab83baef010000006a4730440220493f0572492e4919707403352d8aff15e1a7d3d59b9a2088eecfe60f61351a6602202c64b8cc0cd9697333f3394bc7ce0dd8ae5fb01fd3632061c3fa8e3ba8d9fe9a01210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff0240420f000000000017a9144b36eaa3ff7667f8461fed670babb36acd0bde9287c82dbb03000000001976a9144ff94075bfd8e49cd5bad195371a3389be5f196888ac00000000',
-            lockScriptHex: '63a6145e690840c5fe98d8f340f9921017e9cf12278ab88876a914515af089301b8ccf876e78607b57f5196a4a64226704f2b2795ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac',
-            secret: '37d71ebbd08659bb4022ab09112cb99fde9311a199f1b9a2d92ec68f7ed5675d',
-            secretHashHexStr: '5e690840c5fe98d8f340f9921017e9cf12278ab8'
+            txHexString: "01000000012118d97ef4da3fa4cd5aea6ba3aaa0916c00d22b782be26b52b99763ab83baef010000006a4730440220493f0572492e4919707403352d8aff15e1a7d3d59b9a2088eecfe60f61351a6602202c64b8cc0cd9697333f3394bc7ce0dd8ae5fb01fd3632061c3fa8e3ba8d9fe9a01210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff0240420f000000000017a9144b36eaa3ff7667f8461fed670babb36acd0bde9287c82dbb03000000001976a9144ff94075bfd8e49cd5bad195371a3389be5f196888ac00000000",
+            lockScriptHex: "63a6145e690840c5fe98d8f340f9921017e9cf12278ab88876a914515af089301b8ccf876e78607b57f5196a4a64226704f2b2795ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac",
+            secret: "37d71ebbd08659bb4022ab09112cb99fde9311a199f1b9a2d92ec68f7ed5675d",
+            secretHashHexStr: "5e690840c5fe98d8f340f9921017e9cf12278ab8"
         };
 
         // BtcRedeemData {
@@ -153,10 +147,10 @@ describe("AtomicSwapTxBuilder", () => {
         // }
 
         const testLockTx1 = {
-            txHexString: '0100000001bfe192338ac76721e268516f6cfe99a93faac6c9c31917f6aeb3feba34257749010000006b483045022100b4a093fef3a3f53425015ebb65aeda8d9de7b3cb1e91a4fb590de3d3aad2bcb802201ce3a589734394a90c1e6a1787d940bae3e2821d461343668d03abfd5410082301210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff0240420f000000000017a914adbfeffcb420b5027fdb0a407322126d0712b46587ab045c01000000001976a914515af089301b8ccf876e78607b57f5196a4a642288ac00000000',
-            lockScriptHex: '63a61421013bca67fd45d3ff8a46a02d9c86b8ff2ca0d38876a914515af089301b8ccf876e78607b57f5196a4a6422670455ad5f5ab17576a914969dfb1ec29287bf6d5004f1d0d16fae5240e1206888ac',
-            secret: '25f1831a5bbf57506c17becd628b706f591c38ef1db0b167d5540c5f11a6ba67',
-            secretHashHexStr: '21013bca67fd45d3ff8a46a02d9c86b8ff2ca0d3'
+            txHexString: "0100000001bfe192338ac76721e268516f6cfe99a93faac6c9c31917f6aeb3feba34257749010000006b483045022100b4a093fef3a3f53425015ebb65aeda8d9de7b3cb1e91a4fb590de3d3aad2bcb802201ce3a589734394a90c1e6a1787d940bae3e2821d461343668d03abfd5410082301210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff0240420f000000000017a914adbfeffcb420b5027fdb0a407322126d0712b46587ab045c01000000001976a914515af089301b8ccf876e78607b57f5196a4a642288ac00000000",
+            lockScriptHex: "63a61421013bca67fd45d3ff8a46a02d9c86b8ff2ca0d38876a914515af089301b8ccf876e78607b57f5196a4a6422670455ad5f5ab17576a914969dfb1ec29287bf6d5004f1d0d16fae5240e1206888ac",
+            secret: "25f1831a5bbf57506c17becd628b706f591c38ef1db0b167d5540c5f11a6ba67",
+            secretHashHexStr: "21013bca67fd45d3ff8a46a02d9c86b8ff2ca0d3"
         };
 
         const testUnlockTx = {
@@ -169,7 +163,7 @@ describe("AtomicSwapTxBuilder", () => {
             unlockScript: "63a6142fa839ad57a160ba690e8fa85dff1b0de9b9a0a18876a914515af089301b8ccf876e78607b57f5196a4a64226704afa35f5ab17576a914969dfb1ec29287bf6d5004f1d0d16fae5240e1206888ac"
         };
 
-        //the address bellow has a lot of funds
+        // the address bellow has a lot of funds
         const address1 = "mnw7yBjxmEtKtHn3HJaqsYtmbztq3eKc6U";
         const privateKey1 = "cUfKPZw418973NhJ7sxH99XSjnqDVJYyzx3m6mmg5neaYb15NZf5";
 
@@ -179,7 +173,7 @@ describe("AtomicSwapTxBuilder", () => {
 
         console.log(redeemData);
 
-        //TODO: adjust the test cases for the address change
+        // TODO: adjust the test cases for the address change
         // assert.equal(redeemData.redeemTx, testUnlockTx.unlockTx)
         // assert.equal(redeemData.rawTx, testUnlockTx.unlockTxId)
 
@@ -218,7 +212,7 @@ describe("AtomicSwapTxBuilder", () => {
 
         console.log(refundData);
 
-        //TODO: adjust the test cases for the address change
+        // TODO: adjust the test cases for the address change
         // assert.equal(refundData.refundTx, testRefundData.refundTx)
 
     });
@@ -237,10 +231,10 @@ describe("AtomicSwapTxBuilder", () => {
         //         rawTx: 'cb70fc42e9231c9093db6a0d874f8b150f99021dde83432aa37c9610ac7cbe3b' }
 
         const testLockTx = {
-            txHexString: '01000000012118d97ef4da3fa4cd5aea6ba3aaa0916c00d22b782be26b52b99763ab83baef010000006a4730440220493f0572492e4919707403352d8aff15e1a7d3d59b9a2088eecfe60f61351a6602202c64b8cc0cd9697333f3394bc7ce0dd8ae5fb01fd3632061c3fa8e3ba8d9fe9a01210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff0240420f000000000017a9144b36eaa3ff7667f8461fed670babb36acd0bde9287c82dbb03000000001976a9144ff94075bfd8e49cd5bad195371a3389be5f196888ac00000000',
-            lockScriptHex: '63a6145e690840c5fe98d8f340f9921017e9cf12278ab88876a914515af089301b8ccf876e78607b57f5196a4a64226704f2b2795ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac',
-            secret: '37d71ebbd08659bb4022ab09112cb99fde9311a199f1b9a2d92ec68f7ed5675d',
-            secretHashHexStr: '5e690840c5fe98d8f340f9921017e9cf12278ab8'
+            txHexString: "01000000012118d97ef4da3fa4cd5aea6ba3aaa0916c00d22b782be26b52b99763ab83baef010000006a4730440220493f0572492e4919707403352d8aff15e1a7d3d59b9a2088eecfe60f61351a6602202c64b8cc0cd9697333f3394bc7ce0dd8ae5fb01fd3632061c3fa8e3ba8d9fe9a01210263a131db9f54c8bc19c5602cca56c0e156b17430b45a09081ec8405297060908ffffffff0240420f000000000017a9144b36eaa3ff7667f8461fed670babb36acd0bde9287c82dbb03000000001976a9144ff94075bfd8e49cd5bad195371a3389be5f196888ac00000000",
+            lockScriptHex: "63a6145e690840c5fe98d8f340f9921017e9cf12278ab88876a914515af089301b8ccf876e78607b57f5196a4a64226704f2b2795ab17576a9144ff94075bfd8e49cd5bad195371a3389be5f19686888ac",
+            secret: "37d71ebbd08659bb4022ab09112cb99fde9311a199f1b9a2d92ec68f7ed5675d",
+            secretHashHexStr: "5e690840c5fe98d8f340f9921017e9cf12278ab8"
         };
 
         const testBtcAtomicSwapContractData = {
@@ -276,11 +270,10 @@ describe("AtomicSwapTxBuilder", () => {
         };
 
         const btcExtractSecretParams = new BtcExtractSecretParams(testUnlockTx.unlockTx, testUnlockTx.secretHash);
-        const atomicSwapTxBuilder = new AtomicSwapTxBuilder;
+        const atomicSwapTxBuilder = new AtomicSwapTxBuilder();
         const secret = await atomicSwapTxBuilder.extractSecret(btcExtractSecretParams);
 
-        assert.equal(secret, testUnlockTx.secret);
-
+        expect(secret).toBe(testUnlockTx.secret);
     });
 
 });
