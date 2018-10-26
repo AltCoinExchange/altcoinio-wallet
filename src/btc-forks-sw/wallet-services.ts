@@ -41,7 +41,7 @@ export class WalletServices {
         transactionBuilder.addOutput(sendToAddressBase58check, amount);
 
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const { address } = payments.p2pkh({ pubkey: privateKeyEC.publicKey });
+        const { address } = payments.p2pkh({ pubkey: privateKeyEC.publicKey, network: networks.testnet });
         // const fundFromAddress = privateKeyEC.getAddress();
 
         const fee = await WalletServices.fundTransaction(address, transactionBuilder);

@@ -1,6 +1,6 @@
 import * as bip39 from "bip39";
 import {ECPair, networks, payments} from "bitcoinjs-lib";
-
+import axios from "axios";
 import {AtomicSwapTxBuilder} from "./atomic-swap-tx-builder";
 
 import {BtcRpcConfiguration} from "../config/config";
@@ -52,6 +52,11 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
         this.hierarchicalPrivateKey = BIP32.fromBase58(params.code, networks.testnet);
     }
 
+    public async getbalance(address: string): Promise<any> {
+        const result = await axios.get("https://chain.so/api/v2/get_address_balance/BTCTEST/" + address + "/500");
+        return result.data.data.confirmed_balance;
+    }
+
     public create(params: FreshBitcoinWallet) {
         // TODO: refactor
         // NOTE: params.code is memnonic in this case, it should be called params.mnemonic
@@ -71,7 +76,7 @@ export class BitcoinWallet extends AtomicSwapTxBuilder {
             wif = this.WIF;
         }
         const keypair = ECPair.fromWIF(wif, networks.testnet);
-        const { address } = payments.p2pkh({ pubkey: keypair.publicKey });
+        const { address } = payments.p2pkh({ pubkey: keypair.publicKey, network: networks.testnet });
         return address;
     }
 

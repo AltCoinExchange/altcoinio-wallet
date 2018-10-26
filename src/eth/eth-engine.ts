@@ -14,7 +14,7 @@ export enum EthConfirmation {
 }
 
 export class EthEngine {
-    protected web3: any;
+    protected web3: Web3;
     private contract: any;
     private maxThreads = 20;
     private firstBlockNumber = 1909000;
@@ -23,6 +23,7 @@ export class EthEngine {
         const wsProvider = new Web3.providers.WebsocketProvider(configuration.wshost);
         this.web3 = new Web3(wsProvider);
         this.web3.defaultAccount = configuration.defaultWallet;
+        this.web3.shh.setProvider(wsProvider);
 
         if (abiConfiguration) {
             this.contract = new this.web3.eth.Contract(abiConfiguration, configuration.contractAddress);
@@ -54,10 +55,9 @@ export class EthEngine {
         return keystore;
     }
 
-    public getBalance(address): Promise<number> {
-        return this.web3.eth.getBalance(address).bind(this).then((balance) => {
-            return this.web3.utils.fromWei(balance, "ether");
-        });
+    public async getBalance(address): Promise<number> {
+        const balance = await this.web3.eth.getBalance(address);
+        return this.web3.utils.fromWei(balance, "ether");
     }
 
     public async sendAllEther(privateKey, toAddress) {
@@ -374,6 +374,22 @@ export class EthEngine {
 
             return nt; // number of threads spawned (they'll continue processing)
         });
+    }
+
+    public async shh(topic, msg) {
+
+        const postData = {
+          ttl: 7,
+          topic: "0x07678231",
+          powTarget: 3,
+          powTime: 100,
+          payload: this.web3.toHex(JSON.stringify(msg)),
+          pubKey: this.web3.shh.getPublicKey()
+        };
+
+        // Perform the RPC call that will tell the node to forward
+        // that message to all its neighboring nodes.
+        return await this.web3.shh.post(postData);
     }
 
     private async getFeeFromBlockCypher() {

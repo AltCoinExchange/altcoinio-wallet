@@ -58,7 +58,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         // const refundAddressBase58check: string = testAddress
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
         // const fundFromAddress = privateKeyEC.getAddress();
-        const refundAddressBase58check = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
+        const refundAddressBase58check = payments.p2pkh({ pubkey: privateKeyEC.publicKey, network: networks.testnet }).address;
 
         const lockData = await this.lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey);
 
@@ -82,7 +82,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         // const testAddress = "muFLuY5NUd3bh828Wv2xiorU963gqqurNu"
         // const refundAddressBase58check: string = testAddress
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const refundAddressBase58check = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
+        const refundAddressBase58check = payments.p2pkh({ pubkey: privateKeyEC.publicKey, network: networks.testnet }).address;
 
         const lockData = await this.lockTxBuilder(refundAddressBase58check, recipientAddressBase58check, amount, lockTime, secretHashHex, privateKey);
 
@@ -117,7 +117,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         // const testAddress = "mqxi5XsoUkL2u7oes9LFWjDjfZ1dhkG3uM"
         // const redeemToAddr = testAddress
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const redeemToAddr = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
+        const redeemToAddr = payments.p2pkh({ pubkey: privateKeyEC.publicKey, network: networks.testnet }).address;
 
         const transactionBuilder = new TransactionBuilder(networks.testnet);
 
@@ -331,7 +331,7 @@ export class AtomicSwapTxBuilder extends WalletServices implements IAtomicSwap {
         transactionBuilder.addOutput(scriptPubKey, amount);
 
         const privateKeyEC = ECPair.fromWIF(privateKey, networks.testnet);
-        const fundFromAddress = payments.p2pkh({ pubkey: privateKeyEC.publicKey }).address;
+        const fundFromAddress = payments.p2pkh({ pubkey: privateKeyEC.publicKey, network: networks.testnet }).address;
 
         const fee = await WalletServices.fundTransaction(fundFromAddress, transactionBuilder);
 
